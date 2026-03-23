@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RK Institute – Coming Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"] {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --surface: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --text: #f0eee8;
+    --muted: rgba(240,238,232,0.45);
+    --accent: #e8c97a;
+    --accent2: #c47a3a;
+    --glow: rgba(232,201,122,0.15);
+    --glow2: rgba(196,122,58,0.1);
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f2eb;
+    --bg2: #ede9de;
+    --surface: rgba(0,0,0,0.04);
+    --border: rgba(0,0,0,0.1);
+    --text: #1a1714;
+    --muted: rgba(26,23,20,0.5);
+    --accent: #b8840a;
+    --accent2: #8a4a10;
+    --glow: rgba(184,132,10,0.12);
+    --glow2: rgba(138,74,16,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* ── BACKGROUND ── */
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 480px; height: 480px; background: var(--glow); top: -120px; left: -100px; }
+  .orb2 { width: 380px; height: 380px; background: var(--glow2); bottom: -80px; right: -60px; animation-delay: -7s; }
+  .orb3 { width: 260px; height: 260px; background: var(--glow); top: 40%; left: 55%; animation-delay: -3s; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.08); } }
+
+  .grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 20px 40px;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(10,10,15,0.6);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s;
+  }
+  [data-theme="light"] .topbar { background: rgba(245,242,235,0.7); }
+
+  .topbar-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+  }
+
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn-toggle {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50px; padding: 6px 14px;
+    color: var(--text); font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .btn-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .lang-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a0f;
+    font-weight: 600;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    display: flex; flex-direction: column;
+    align-items: center; text-align: center;
+    gap: 0;
+    margin-top: 80px;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50px; padding: 6px 18px;
+    font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+  .institute-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .institute-name span {
+    color: var(--accent);
+    display: inline-block;
+  }
+
+  .tagline {
+    font-size: clamp(1rem, 2.8vw, 1.35rem);
+    font-weight: 300; font-style: italic;
+    color: var(--muted);
+    margin-top: 16px; margin-bottom: 48px;
+    max-width: 480px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  /* ── CONSTRUCTION CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 40px;
+    max-width: 520px; width: 100%;
+    position: relative; overflow: hidden;
+    animation: fadeUp 0.8s 0.3s ease both;
+    margin-bottom: 48px;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .construction-icon {
+    font-size: 3rem; margin-bottom: 16px;
+    display: block;
+    animation: sway 3s ease-in-out infinite;
+  }
+  @keyframes sway { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.45rem; font-weight: 700;
+    color: var(--text); margin-bottom: 10px;
+  }
+
+  .card-desc {
+    font-size: 0.92rem; color: var(--muted);
+    line-height: 1.7; max-width: 380px; margin: 0 auto;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%; max-width: 520px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 0 48px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-label {
+    font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+
+  .contact-email {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 24px;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .contact-email:hover {
+    border-color: var(--accent);
+    background: var(--glow);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--glow);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 28px;
+    font-size: 0.72rem; color: var(--muted);
+    letter-spacing: 0.06em;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 520px) {
+    .topbar { padding: 14px 16px; }
+    .topbar-logo { font-size: 1rem; }
+    .btn-toggle { padding: 5px 10px; font-size: 0.72rem; }
+    .card { padding: 28px 22px; }
+    .main { margin-top: 72px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="grid-lines"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-logo">RK INSTITUTE</div>
+  <div class="topbar-actions">
+    <button class="btn-toggle lang-btn active" id="enBtn" onclick="setLang('en')">EN</button>
+    <button class="btn-toggle lang-btn" id="taBtn" onclick="setLang('ta')">தமிழ்</button>
+    <button class="btn-toggle" id="themeBtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<!-- MAIN PAGE -->
+<main class="page">
+  <div class="main">
+
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span data-en="Website Under Construction" data-ta="வலைதளம் கட்டுமானத்தில் உள்ளது">Website Under Construction</span>
+    </div>
+
+    <h1 class="institute-name">
+      <span>RK</span>&nbsp;<span data-en="Institute" data-ta="நிறுவனம்">Institute</span>
+    </h1>
+
+    <p class="tagline" data-en="Something great is being built. Stay tuned." data-ta="ஏதோ சிறப்பானது கட்டப்படுகிறது. காத்திருங்கள்.">
+      Something great is being built. Stay tuned.
+    </p>
+
+    <div class="card">
+      <span class="construction-icon">🏗️</span>
+      <div class="card-title" data-en="Publishing Soon" data-ta="விரைவில் வெளியிடப்படும்">Publishing Soon</div>
+      <p class="card-desc" data-en="Our website is currently under development. We're working hard to bring you an exceptional experience. Check back soon!" data-ta="எங்கள் வலைதளம் தற்போது உருவாக்கப்படுகிறது. உங்களுக்கு சிறந்த அனுபவத்தை வழங்க நாங்கள் கடுமையாக உழைக்கிறோம். விரைவில் மீண்டும் பாருங்கள்!">
+        Our website is currently under development. We're working hard to bring you an exceptional experience. Check back soon!
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="contact-label" data-en="Get in touch" data-ta="தொடர்பு கொள்ளுங்கள்">Get in touch</p>
+    <a class="contact-email" href="mailto:ariknesh05@gmail.com">
+      ✉ ariknesh05@gmail.com
+    </a>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span data-en="Built by" data-ta="உருவாக்கியவர்">&nbsp;Built by&nbsp;</span>
+  <a href="mailto:ariknesh05@gmail.com">&nbsp;djr-codes</a>
+  &nbsp;·&nbsp;
+  <span>© 2025 RK Institute</span>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.textContent = el.getAttribute('data-' + lang);
+    });
+    document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+    document.getElementById('taBtn').classList.toggle('active', lang === 'ta');
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+  }
+</script>
+</body>
+</html>
